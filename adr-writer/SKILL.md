@@ -21,11 +21,13 @@ Create an Architecture Decision Record and save it to the `docs/` directory. The
 - **Title**: Sequential number + active-voice decision statement (e.g., `ADR-042: Grab your gun and bring in the cat`)
 - **Category**: See [Category Mapping](#category-mapping) below.
 - **Status**: Lifecycle stage (Proposed, Accepted, Rejected, or Superseded)
+- **Implemented**: Link to PR, if it exists
 - **Created**: Datetime using the format `YYYY-MM-DD HH:MM`
 - **Context**: Forces, requirements, and background circumstances
 - **Options Considered**: Serious alternatives with pros and cons
 - **Decision**: Chosen solution and brief justification
 - **Consequences**: Positive and negative implications, including trade-offs
+- **References**: Link to other ADRs, other PRs, or external web references
 
 #### Category Mapping
 

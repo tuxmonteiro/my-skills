@@ -1,15 +1,15 @@
 ---
 name: execute-plan
-description: Execute the plan stored in a GitHub issue step by step, then post a changelog comment and open a PR. Use this whenever the user asks to execute a plan, work an issue, or run the tasks in a PLAN ("execute the plan", "work on the issue", "run the plan"). It reads the latest # PLAN from the issue (never from docs/PLAN.md), works on an exclusive git worktree branch, and finishes with a PR for human review. If more than one open issue exists, it stops and asks which one to execute.
+description: Execute the plan stored in a GitHub issue step by step, then post a changelog comment and open a PR. Use this whenever the user asks to execute a plan, work an issue, or run the tasks in a PLAN ("execute the plan", "work on the issue", "run the plan"). It reads the latest PLAN from the issue (never from docs/PLAN.md), works on an exclusive git worktree branch using the using-git-worktrees skill, and finishes with a PR for human review. If more than one open issue exists, it stops and asks which one to execute.
 ---
 
 # When to Use
 
 **Always:**
-- When user ask to execute the plan, execute plan, execute last plan, or execute plan #xx (when define the issue with the plan)
+- When the user asks to execute the plan, execute plan, execute last plan, or execute plan #xx (when define the issue with the plan)
 
 **Exceptions (ask your human partner):**
-- All issues is closed
+- All issues are closed
 
 # Execute GitHub Plan
 
@@ -20,7 +20,7 @@ Execute the plan stored in a GitHub issue, end to end, leaving behind a reviewab
 
 Before doing anything: check the current branch. 
 - If it is not `main`, ABORT. 
-- If main branch not clean (uncommitted changes, untracked files, tracked files removed but without committed the deletion), ABORT — the worktree flow below assumes a clean main.
+- If main branch not clean (uncommitted changes, untracked files, tracked files removed but without committing the deletion), ABORT — the worktree flow below assumes a clean main.
 
 ## Steps
 
@@ -140,7 +140,7 @@ git worktree remove $WORKTREE
 
 ### 13. Show PR link
 
-Show the full link to PR
+Show the full link to the PR
 
 ## Full workflow
 

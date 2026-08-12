@@ -267,7 +267,7 @@ skill-name/
 
 ## using-git-worktrees
 
-**Description:** Ensure work happens in an isolated workspace INSIDE current project root. Prefers native worktree tools, falls back to manual git worktrees.
+**Description:** Ensure work happens in an isolated workspace INSIDE the current project root. Prefers native worktree tools and falls back to manual git worktrees.
 
 **Core principle:** Detect existing isolation first → use native tools → fall back to git. Never create workspace in `/tmp` or outside project.
 

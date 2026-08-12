@@ -152,7 +152,7 @@ BEFORE adding a mock or test helper:
 
   Mock responses mirror complete, realistic production structs/enums.
 
-  A method only tests call lives inside `#[cfg(test)]` or `tests/common/`, not production API.
+  A method called only by tests lives inside `#[cfg(test)]` or `tests/common/`, not in the production API.
 
   About to assert on the mock itself?
     Unmock it, test the output/state change, or delete the assertion.

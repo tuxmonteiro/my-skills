@@ -1,6 +1,6 @@
 ---
 name: add-task
-description: Create a GitHub issue from a task description, silently fixing grammar and formatting. Use this whenever the user wants to add a task, open an issue, or record work to be done through GitHub issues — even if they phrase it casually ("add a task", "create an issue for X", "make a ticket for Y"). It ensures the issue title follows the project's conventions so downstream plan/execute skills work correctly.
+description: Create a GitHub issue from a task description, silently fixing grammar and formatting. Use this whenever the user wants to add a task, open an issue, or record work to be done through GitHub issues — even if they phrase it casually ("add a task", "create an issue for X", "make a ticket for Y"). It ensures the issue title follows the project's conventions so downstream plan/execute skills work correctly. When using this skill, ONLY create a GitHub Issue. NEVER make changes.
 ---
 
 # Add GitHub Task

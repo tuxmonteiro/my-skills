@@ -1,6 +1,6 @@
 ---
 name: using-git-worktrees
-description: Use when starting feature work that needs isolation from current workspace or before executing implementation plans - ensures an isolated workspace exists via native tools or git worktree fallback
+description: Use when you need isolation from the current workspace - ensures an isolated workspace exists via native tools or git worktree fallback
 ---
 
 # Using Git Worktrees
@@ -13,7 +13,7 @@ Ensure work happens in an isolated workspace INSIDE current project root directo
 
 **Announce at start:** "I'm using the using-git-worktrees skill to set up an isolated workspace."
 
-**Mandatory** NEVER create isolated workspace in /tmp or outside of the current project directory.
+**NEVER create isolated workspace in /tmp or outside of the current project directory**
 
 ## Step 0: Detect Existing Isolation
 
@@ -91,21 +91,36 @@ git check-ignore -q .worktrees 2>/dev/null || git check-ignore -q worktrees 2>/d
 
 #### Create the Worktree
 
+- [ ] Determine PROJECT_ROOT and use .worktrees/ directory as the base of ALL worktrees
 ```bash
-# Determine PROJECT_ROOT and use .worktrees/ directory as base of ALL worktrees
 WORKTREE_ROOT=$PROJECT_ROOT/.worktrees
 mkdir -p $WORKTREE_ROOT > /dev/null 2>&1 || true
+```
 
-# Branch name format must prefix with short "tag" (e.g: bug, feat, refactoring, release, ...)
+- [ ] Branch names must be prefixed with a short "tag" (e.g: bug, feat, refactoring, release, ...)
+```bash
 BRANCH_NAME='<tags separated by "-">/<short description replacing spaces with "-">'
+```
 
-# Create worktree
+- [ ] Create worktree
+```bash
 git worktree add -b "$BRANCH_NAME" "$WORKTREE_ROOT/$BRANCH_NAME" HEAD
-cd "$WORKTREE_ROOT/$BRANCH_NAME"
+```
 
-# Prevent to always to use the updated remote main branch
+- [ ] Ensure you're using the updated remote main branch
+```
 git fetch --all
 git pull --rebase origin main
+```
+
+- [ ] Go to worktree directory
+```
+cd "$WORKTREE_ROOT/$BRANCH_NAME"
+```
+
+- [ ] Confirm you're in the correct worktree directory
+```
+[ "$PWD" == "$WORKTREE_ROOT/$BRANCH_NAME" ] && echo ok || echo fail
 ```
 
 **Sandbox fallback:** If `git worktree add` fails with a permission error (sandbox denial), tell the user the sandbox blocked worktree creation and you're working in the current directory instead. Then run setup and baseline tests in place.

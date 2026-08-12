@@ -681,7 +681,7 @@ pub fn find(id: MarketId) -> Result<Market> {}
 
 # Testing
 
-**Skill "rust-tdd" is the priority source with orientation about to create and to review Rust tests.**
+**Skill "rust-tdd" is the priority source for guidance on creating and reviewing Rust tests.**
 
 Use the AAA (Arrange/Act/Assert) pattern, and name tests to describe behavior, not implementation.
 
@@ -720,7 +720,7 @@ cargo test --test integration # Integration tests only
 
 # Debug
 
-if "Runtime panic", "Logic error" or "Wrong output", follow this steps:
+if "Runtime panic", "Logic error", or "Wrong output", follow these steps:
 
 1.  **Reproduction**:
     - Can you write a test case that fails?
