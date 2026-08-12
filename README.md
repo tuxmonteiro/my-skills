@@ -389,12 +389,31 @@ skills/
 ├── rust-coding/
 │   └── SKILL.md
 ├── rust-tdd/
-│   └── SKILL.md
+│   ├── SKILL.md
+│   └── writing-good-tests.md
 ├── skill-creator/
 │   ├── SKILL.md
+│   ├── LICENSE.txt
 │   ├── agents/
+│   │   ├── analyzer.md
+│   │   ├── comparator.md
+│   │   └── grader.md
+│   ├── assets/
+│   │   └── eval_review.html
+│   ├── eval-viewer/
+│   │   ├── generate_review.py
+│   │   └── viewer.html
 │   ├── references/
+│   │   └── schemas.md
 │   └── scripts/
+│       ├── aggregate_benchmark.py
+│       ├── generate_report.py
+│       ├── improve_description.py
+│       ├── package_skill.py
+│       ├── quick_validate.py
+│       ├── run_eval.py
+│       ├── run_loop.py
+│       └── utils.py
 ├── using-git-worktrees/
 │   └── SKILL.md
 ├── verification-before-completion/
@@ -402,4 +421,4 @@ skills/
 └── README.md
 ```
 
-Each skill is self-contained in its directory with a `SKILL.md` file containing YAML frontmatter (name, description) and markdown instructions.
+Each skill is self-contained in its directory with a `SKILL.md` file containing YAML frontmatter (name, description) and markdown instructions. Some skills bundle additional resources — scripts, reference docs, templates, and static assets — as described in their `SKILL.md`.
