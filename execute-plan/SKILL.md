@@ -21,6 +21,7 @@ Execute the plan stored in a GitHub issue, end to end, leaving behind a reviewab
 Before doing anything: check the current branch. 
 - If it is not `main`, ABORT. 
 - If main branch not clean (uncommitted changes, untracked files, tracked files removed but without committing the deletion), ABORT — the worktree flow below assumes a clean main.
+- The read and edit tools operate on absolute paths, so if using this tools, ALWAYS define absolute file full path inside the worktree. NEVER use related path.
 
 ## Steps
 
