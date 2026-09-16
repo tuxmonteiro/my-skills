@@ -1,6 +1,6 @@
 ---
 name: rust-coding
-description: Unified Rust engineering skill covering idiomatic patterns (ownership, error handling, enums, traits, concurrency, unsafe code) and baseline coding standards (naming, module organization, documentation, testing, code smells). Use this whenever writing, reviewing, or refactoring Rust code, designing crate/module structure, setting up lint/format/test conventions, or onboarding contributors to a Rust codebase. Merges and supersedes the separate "rust-patterns" and "coding-standards" skills.
+description: Use this whenever writing, reviewing, or refactoring Rust code, designing crate/module structure, setting up lint/format/test conventions, or onboarding contributors to a Rust codebase.
 ---
 
 # Rust Coding Standards & Patterns
@@ -34,26 +34,26 @@ across a team.
 
 ---
 
-# Core Engineering Principles
+## Core Engineering Principles
 
-## 1. Readability First
+### 1. Readability First
 
 - Code is read more than written.
 - Prefer expressive names; let the type system explain intent.
 - Follow standard Rust idioms; prefer self-documenting code.
 
-## 2. KISS
+### 2. KISS
 
 - Prefer the simplest ownership model.
 - Avoid unnecessary abstractions; favor explicit code over clever tricks.
 - Don't optimize before profiling.
 
-## 3. DRY
+### 3. DRY
 
 - Extract reusable functions; prefer traits over duplicated implementations.
 - Share common utilities; avoid copy-paste logic.
 
-## 4. YAGNI
+### 4. YAGNI
 
 - Avoid speculative generic abstractions.
 - Don't introduce traits until multiple implementations exist.
@@ -61,9 +61,9 @@ across a team.
 
 ---
 
-# Naming Conventions
+## Naming Conventions
 
-## Variables
+### Variables
 
 ```rust
 // GOOD
@@ -77,7 +77,7 @@ let x = 1000;
 let flag = true;
 ```
 
-## Functions
+### Functions
 
 ```rust
 // GOOD
@@ -91,7 +91,7 @@ fn market() {}
 fn email() {}
 ```
 
-## Types
+### Types
 
 ```rust
 struct Market {}
@@ -107,7 +107,7 @@ type MarketId = Uuid;
 
 ---
 
-# Ownership and Borrowing
+## Ownership and Borrowing
 
 Rust's ownership system prevents data races and memory bugs at compile time. Immutability is the
 default — only use `mut` when necessary, and prefer borrowing over moving or cloning.
@@ -159,7 +159,7 @@ never clone just to silence the borrow checker without understanding why:
 user.clone().profile.clone().email.clone()
 ```
 
-### Use `Cow` for Flexible Ownership
+#### Use `Cow` for Flexible Ownership
 
 ```rust
 use std::borrow::Cow;
@@ -175,7 +175,7 @@ fn normalize(input: &str) -> Cow<'_, str> {
 
 ---
 
-# Error Handling
+## Error Handling
 
 Always return structured errors and propagate with `?`. Avoid `panic!`/`unwrap()`/`expect()` in
 production and library code.
@@ -199,7 +199,7 @@ fn load_config_bad(path: &str) -> Config {
 }
 ```
 
-## Library Errors with `thiserror`, Application Errors with `anyhow`
+### Library Errors with `thiserror`, Application Errors with `anyhow`
 
 ```rust
 // Library code: structured, typed errors
@@ -234,7 +234,7 @@ Never silently discard a `Result` — respect `#[must_use]`:
 let _ = validate(input); // Silently discarding a Result
 ```
 
-## `Option` Combinators Over Nested Matching
+### `Option` Combinators Over Nested Matching
 
 Prefer combinators when they stay readable; fall back to explicit `match` and avoid nested
 `if let` when combinators get hard to follow.
@@ -265,9 +265,9 @@ fn find_user_email_bad(users: &[User], id: u64) -> Option<String> {
 
 ---
 
-# Enums and Pattern Matching
+## Enums and Pattern Matching
 
-## Model States as Enums
+### Model States as Enums
 
 Make illegal states unrepresentable:
 
@@ -292,7 +292,7 @@ fn handle(state: &ConnectionState) {
 }
 ```
 
-## Exhaustive Matching — No Catch-All for Business Logic
+### Exhaustive Matching — No Catch-All for Business Logic
 
 Avoid wildcard matches that hide future enum variants unless the omission is intentional and
 documented.
@@ -315,7 +315,7 @@ match command {
 
 ---
 
-# Traits and Generics
+## Traits and Generics
 
 Keep traits small and focused (Interface Segregation); prefer composition over inheritance-like
 mega traits.
@@ -326,7 +326,7 @@ trait MarketRepository {
 }
 ```
 
-## Accept Generics, Return Concrete Types
+### Accept Generics, Return Concrete Types
 
 ```rust
 // Good: Generic input, concrete output
@@ -345,7 +345,7 @@ fn process<T: Display + Send + 'static>(item: T) -> String {
 Do not introduce generic parameters until they provide clear, demonstrated value (YAGNI applies to
 generics too).
 
-## Trait Objects for Dynamic Dispatch
+### Trait Objects for Dynamic Dispatch
 
 ```rust
 // Use when you need heterogeneous collections or plugin systems
@@ -366,7 +366,7 @@ fn fast_process<H: Handler>(handler: &H, request: &Request) -> Response {
 Note: for library-facing errors, prefer `thiserror`-defined enums over `Box<dyn std::error::Error>`
 (see Anti-Patterns).
 
-## Newtype Pattern for Type Safety
+### Newtype Pattern for Type Safety
 
 ```rust
 // Good: Distinct types prevent mixing up arguments
@@ -386,9 +386,9 @@ fn get_order_bad(user_id: u64, order_id: u64) -> Result<Order> {
 
 ---
 
-# Structs and Data Modeling
+## Structs and Data Modeling
 
-## Builder Pattern for Complex Construction
+### Builder Pattern for Complex Construction
 
 ```rust
 struct ServerConfig {
@@ -417,7 +417,7 @@ impl ServerConfigBuilder {
 
 ---
 
-# Iterators and Closures
+## Iterators and Closures
 
 Prefer iterator chains over manual loops when they improve readability — but don't sacrifice
 clarity for functional style just to be "idiomatic."
@@ -438,7 +438,7 @@ for user in &users {
 }
 ```
 
-## Use `collect()` with Type Annotation
+### Use `collect()` with Type Annotation
 
 ```rust
 // Collect into different types
@@ -452,9 +452,9 @@ let parsed: Result<Vec<i32>, _> = strings.iter().map(|s| s.parse()).collect();
 
 ---
 
-# Concurrency
+## Concurrency
 
-## `Arc<Mutex<T>>` for Shared Mutable State
+### `Arc<Mutex<T>>` for Shared Mutable State
 
 ```rust
 use std::sync::{Arc, Mutex};
@@ -473,7 +473,7 @@ for handle in handles {
 }
 ```
 
-## Channels for Message Passing
+### Channels for Message Passing
 
 ```rust
 use std::sync::mpsc;
@@ -493,7 +493,7 @@ for msg in rx {
 }
 ```
 
-## Async: Structured Concurrency with Tokio
+### Async: Structured Concurrency with Tokio
 
 Prefer structured concurrency — run independent work concurrently instead of awaiting sequentially:
 
@@ -543,9 +543,9 @@ Anti-Patterns).
 
 ---
 
-# Unsafe Code
+## Unsafe Code
 
-## When Unsafe Is Acceptable
+### When Unsafe Is Acceptable
 
 ```rust
 // Acceptable: FFI boundary with documented invariants (Rust 2024+)
@@ -561,7 +561,7 @@ unsafe fn widget_from_raw<'a>(ptr: *const Widget) -> &'a Widget {
 unsafe { slice.get_unchecked(index) }
 ```
 
-## When Unsafe Is NOT Acceptable
+### When Unsafe Is NOT Acceptable
 
 - Using `unsafe` to bypass the borrow checker.
 - Using `unsafe` purely for convenience.
@@ -570,7 +570,7 @@ unsafe { slice.get_unchecked(index) }
 
 ---
 
-# Module System and Crate Structure
+## Module System and Crate Structure
 
 > **Note on reconciling structure:** the two source skills recommended different top-level layouts
 > — one organized purely **by domain** (`auth/`, `orders/`, `db/`), the other organized **by
@@ -580,7 +580,7 @@ unsafe { slice.get_unchecked(index) }
 > to the simpler domain-first layout (YAGNI) and only add layered sub-structure when a domain
 > module actually grows unwieldy.
 
-## Preferred: Organize by Domain, Not by Type
+### Preferred: Organize by Domain, Not by Type
 
 ```text
 my_app/
@@ -603,7 +603,7 @@ my_app/
 └── Cargo.toml
 ```
 
-## When a Domain Grows: Layer Inside It, Not Across the Whole Crate
+### When a Domain Grows: Layer Inside It, Not Across the Whole Crate
 
 If a single domain becomes large enough that flat files stop being readable, introduce layers
 *within* that domain module rather than restructuring the whole crate by layer:
@@ -631,7 +631,7 @@ boundary (e.g. hexagonal/clean architecture with enforced dependency direction).
 
 Keep modules cohesive; prefer multiple small modules over massive files.
 
-## Visibility — Expose Minimally
+### Visibility — Expose Minimally
 
 ```rust
 // Good: pub(crate) for internal sharing
@@ -649,9 +649,9 @@ pub fn internal_helper() {} // Should be pub(crate) or private
 
 ---
 
-# When using Pest - general purpose parser written in Rust
+## When using Pest - general purpose parser written in Rust
 
-### Syntax Constraints
+#### Syntax Constraints
 
 1.  **Syntactic vs Lexical**:
     - Atomic rules (`rule @{ ... }`) generally do NOT consume internal whitespace.
@@ -664,7 +664,7 @@ pub fn internal_helper() {} // Should be pub(crate) or private
     - _Example_: `file = { SOI ~ (stmt)* ~ EOI }`
 4.  **Greediness**: - `*` and `+` are eager. - Ordered choice `|` is first-match-wins. Put specific matches first (e.g., `"<=" | "<"`).
 
-# Documentation
+## Documentation
 
 Public APIs should use rustdoc. Explain **why**, not **what**; avoid redundant comments.
 
@@ -679,7 +679,7 @@ pub fn find(id: MarketId) -> Result<Market> {}
 
 ---
 
-# Testing
+## Testing
 
 **Skill "rust-tdd" is the priority source for guidance on creating and reviewing Rust tests.**
 
@@ -718,7 +718,7 @@ cargo test --test integration # Integration tests only
 
 ---
 
-# Debug
+## Debug
 
 if "Runtime panic", "Logic error", or "Wrong output", follow these steps:
 
@@ -730,7 +730,7 @@ if "Runtime panic", "Logic error", or "Wrong output", follow these steps:
     - Insert `dbg!()` macros (better than `println!`).
 3.  **Resolution**: - Once isolated, fix the logic. - Remove all `dbg!()` calls before final commit.
 
-# Tooling Integration
+## Tooling Integration
 
 ```bash
 # Build and check
@@ -755,7 +755,7 @@ cargo bench               # Run benchmarks
 
 ---
 
-# Performance
+## Performance
 
 - Prefer borrowing over owned/cloned data.
 - Reserve capacity when the size is known: `Vec::with_capacity(100)`.
@@ -764,7 +764,7 @@ cargo bench               # Run benchmarks
 
 ---
 
-# Dependency Guidelines
+## Dependency Guidelines
 
 - Prefer the standard library over pulling in a crate for something std already covers well.
 - Minimize external dependencies.
@@ -773,13 +773,13 @@ cargo bench               # Run benchmarks
 
 ---
 
-# Code Smells
+## Code Smells
 
-## Long Functions
+### Long Functions
 
 Keep functions generally below ~50 lines; extract responsibilities into helper functions.
 
-## Deep Nesting
+### Deep Nesting
 
 Prefer early returns:
 
@@ -793,7 +793,7 @@ if !market.active {
 }
 ```
 
-## Excessive Clone
+### Excessive Clone
 
 ```rust
 // Bad
@@ -802,15 +802,15 @@ user.clone().profile.clone().email.clone()
 
 Prefer borrowing instead.
 
-## Large Traits
+### Large Traits
 
 Split traits following Interface Segregation.
 
-## Overusing Generics
+### Overusing Generics
 
 Do not introduce generic parameters until they provide clear value.
 
-## Magic Numbers
+### Magic Numbers
 
 ```rust
 const MAX_RETRIES: u8 = 3;
@@ -821,7 +821,7 @@ Avoid unexplained literals.
 
 ---
 
-# Anti-Patterns to Avoid
+## Anti-Patterns to Avoid
 
 ```rust
 // Bad: .unwrap() in production code
@@ -847,9 +847,11 @@ async fn bad_async() {
 }
 ```
 
+Other examples in [rust-anti-patterns.md](docs/rust-anti-patterns.md).
+
 ---
 
-# Quick Reference: Rust Idioms
+## Quick Reference: Rust Idioms
 
 | Idiom | Description |
 |-------|-------------|
@@ -868,7 +870,7 @@ async fn bad_async() {
 
 ---
 
-# Code Review Checklist
+## Code Review Checklist
 
 - Idiomatic ownership? Minimal cloning?
 - Clear naming (no `x`, `q`, `flag`)?
@@ -889,7 +891,7 @@ async fn bad_async() {
 
 ---
 
-# Golden Rules
+## Golden Rules
 
 1. Trust the ownership model.
 2. Prefer explicitness over cleverness.

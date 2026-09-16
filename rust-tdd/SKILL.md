@@ -1,6 +1,6 @@
 ---
 name: rust-tdd
-description: Use when implementing any feature or bugfix, before writing implementation code in Rust
+description: Use when implementing any feature or bugfix, BEFORE writing implementation code in Rust
 ---
 
 # Test-Driven Development (TDD) in Rust
@@ -350,3 +350,8 @@ Otherwise → not TDD
 ```
 
 No exceptions without your human partner's permission.
+
+## Important docs
+
+see [writing-good-tests.md](docs/writing-good-tests.md): **Load this reference when:** writing unit/integration tests, implementing mock objects or double traits, or adding test helpers and fixtures.
+
